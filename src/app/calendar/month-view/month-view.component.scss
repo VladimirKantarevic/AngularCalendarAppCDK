@@ -1,0 +1,81 @@
+@use "../_variables" as vars;
+
+.calendar-view-month {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th {
+    background-color: vars.$calendar-header-bg;
+    color: vars.$text-light;
+    padding: 10px;
+    text-align: center;
+  }
+
+  td {
+    background-color: vars.$calendar-cell-bg;
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+    height: 100px;
+
+    &.today {
+      background-color: lighten(vars.$calendar-cell-bg, 10%);
+
+      .date {
+        display: inline-block;
+        width: 33px;
+        height: 33px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: vars.$calendar-today-bg;
+        color: vars.$primary-color;
+        font-weight: bold;
+        font-size: large;
+      }
+    }
+
+    .date {
+      //   font-weight: bold;
+      margin-bottom: 5px;
+      color: vars.$text-dark;
+    }
+
+    .appointments {
+      .appointment {
+        background-color: vars.$appointment-bg;
+        color: vars.$appointment-text;
+        padding: 5px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
+.delete-btn {
+  position: absolute;
+  right: 5px;
+  background: vars.$primary-color;
+  color: red;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 8px;
+  display: none;
+}
+
+.appointment:hover .delete-btn {
+  display: inline-block;
+}

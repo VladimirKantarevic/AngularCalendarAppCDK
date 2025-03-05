@@ -1,0 +1,41 @@
+<table width="100%" cellspacing="0" cellpadding="0" class="calendar-view-month">
+  <thead>
+    <tr>
+      <th *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']">
+        {{ day }}
+      </th>
+    </tr>
+  </thead>
+  <tbody cdkDropListGroup>
+    <tr *ngFor="let week of weeks">
+      <td
+        *ngFor="let date of week"
+        (click)="onDateClick(date)"
+        cdkDropList
+        (cdkDropListDropped)="drop($event, date)"
+        [cdkDropListData]="appointments"
+        [class.today]="isToday(date)"
+      >
+        <div class="date">{{ date.getDate() }}</div>
+        <div class="appointments">
+          <ng-container *ngFor="let appointment of appointments">
+            <div
+              tabindex="0"
+              *ngIf="isSameDate(appointment.date, date)"
+              class="appointment"
+              cdkDrag
+              cdkDragHandle
+              [cdkDragData]="appointment"
+              [ngStyle]="{ 'background-color': appointment.color }"
+            >
+              <span>{{ appointment.title }}</span>
+              <button class="delete-btn" (click)="onDelete(appointment.uuid)">
+                x
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

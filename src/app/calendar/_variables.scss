@@ -1,0 +1,24 @@
+// src/app/calendar/_variables.scss
+
+// Osnovne boje
+$primary-color: #182222; // Primarna boja (plava)
+$accent-color: #ff4081; // Akcent boja (roze)
+$warn-color: #f44336; // Upozorenje (crvena)
+
+// Pozadinske boje
+$background-light: #263431; // Svetla pozadina
+$background-dark: #1e2928; // Tamna pozadina
+
+// Tekst boje
+$text-light: #a8b9b6; // Bela boja za tekst
+$text-dark: #a8b9b6; // Crna boja za tekst
+
+// Kalendar boje
+$calendar-header-bg: $primary-color; // Pozadina zaglavlja kalendara
+$calendar-cell-bg: $background-light; // Pozadina ćelije kalendara
+$calendar-today-bg: #d4d7c4; // Pozadina za današnji datum
+$calendar-selected-bg: #c5cae9; // Pozadina za izabrani datum
+
+// Termini (appointments)
+$appointment-bg: $accent-color; // Pozadina termina
+$appointment-text: #e9e0e4; // Boja teksta termina

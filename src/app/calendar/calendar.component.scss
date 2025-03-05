@@ -1,3 +1,5 @@
+@use "../calendar/variables.scss" as vars;
+
 :root {
   --header-height: 42px;
   --total-weeks: 6;
@@ -8,7 +10,7 @@
   --text-color: #ffffff;
 }
 .container {
-  max-width: 1140px;
+  max-width: 1640px;
   margin: auto;
 }
 .cell-overlay {
@@ -44,114 +46,13 @@
     color: var(--text-color);
   }
 }
-.calendar-view-month {
-  table-layout: fixed;
-  margin-top: 1rem;
-  background-color: var(--dark-background);
-  thead {
-    th {
-      font-size: 22px;
-      font-weight: 100;
-      text-align: right;
-      border-bottom: 1px solid #ddd;
-      color: var(--header-color);
-    }
-  }
-  tbody {
-    tr {
-      td {
-        &:first-child {
-          border-left: 1px solid #ddd;
-        }
-        vertical-align: top;
-        position: relative;
-        border-right: 1px solid #ddd;
-        height: 150px;
-        border-bottom: 1px solid #ddd;
-        padding: 3px 0;
-        background-color: var(--dark-background);
-
-        &.selected {
-          background-color: #bbdefb;
-        }
-
-        &.today {
-          background-color: #e3f2fd;
-        }
-        .date {
-          text-align: right;
-          font-size: 22px;
-          font-weight: 100;
-          padding: 5px 10px 0;
-          color: var(--header-color);
-        }
-      }
-    }
-  }
-}
-.calendar-view-week {
-  margin-top: 1rem;
-  background-color: var(--dark-background);
-  thead {
-    th {
-      font-size: 22px;
-      font-weight: 100;
-      text-align: right;
-      border-bottom: 1px solid #ddd;
-      color: var(--header-color);
-    }
-  }
-  tbody {
-    tr {
-      td {
-        position: relative;
-        border-right: 1px solid #ddd;
-        height: 50px;
-        border-bottom: 1px solid #ddd;
-        padding: 3px 0;
-        width: calc(100% / 7);
-        background-color: var(--dark-background);
-      }
-    }
-  }
-}
-.calendar-view-day {
-  margin-top: 1rem;
-  background-color: var(--dark-background);
-  tr {
-    &:first-child {
-      td {
-        border-top: 1px solid #ddd;
-      }
-    }
-    td {
-      position: relative;
-      border-bottom: 1px solid #ddd;
-      height: 50px;
-      padding: 3px 0;
-      &.calendar-slot-cell {
-        font-size: 12px;
-        font-weight: 100;
-        border-right: 1px solid #ddd;
-        padding-right: 5px;
-        vertical-align: top;
-        span {
-          position: relative;
-          top: -12px;
-          background: #fff;
-          width: 100%;
-          display: block;
-        }
-      }
-    }
-  }
-}
 .calendar-container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
+  align-items: stretch;
   background-color: var(--dark-background);
 
   .calendar-header {
@@ -165,21 +66,91 @@
 
     h2 {
       margin: 0;
-      color: var(--header-color);
+      color: vars.$text-light;
     }
-
-    .calendar-month {
-      font-weight: bold;
-      span {
-        font-weight: 100;
-        color: var(--header-color);
-      }
+    .calendar-dayname {
+      color: vars.$appointment-text;
     }
 
     .calendar-controls {
       display: flex;
-      justify-content: flex-end;
+      align-items: center;
+      gap: 0;
+      height: 40px;
+
+      button {
+        height: 39px;
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: vars.$appointment-text;
+        padding: 6px 16px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+
+        &:first-child {
+          border-top-left-radius: 20px;
+          border-bottom-left-radius: 20px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 20px;
+          border-bottom-right-radius: 20px;
+        }
+
+        &:hover {
+          background-color: #614e5d;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &.mat-icon-button {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          min-width: auto;
+        }
+      }
+
+      .mat-icon-button {
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .mat-stroked-button {
+        margin: 0;
+        border-radius: 0;
+        background-color: #614e5d;
+        color: white;
+        font-weight: bold;
+      }
     }
+  }
+}
+.add-appointment-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #614e5d;
+  color: vars.$appointment-text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken(#614e5d, 10%);
+  }
+
+  mat-icon {
+    font-size: 24px;
+    color: vars.$appointment-text;
   }
 }
 .black-icon {

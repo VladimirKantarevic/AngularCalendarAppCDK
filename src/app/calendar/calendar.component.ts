@@ -10,10 +10,21 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { Appointment, CalendarView } from './models/appointment.model';
 import { MOCK_APPOINTMENTS } from './models/mock_data';
+import { MonthViewComponent } from './month-view/month-view.component';
+import { WeekViewComponent } from './week-view/week-view.component';
+import { DayViewComponent } from './day-view/day-view.component';
 
 @Component({
   selector: 'app-calendar',
-  imports: [CommonModule, MatButtonToggleModule, MatIconModule, DragDropModule],
+  imports: [
+    CommonModule,
+    MatButtonToggleModule,
+    MatIconModule,
+    DragDropModule,
+    MonthViewComponent,
+    WeekViewComponent,
+    DayViewComponent,
+  ],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
@@ -33,7 +44,7 @@ export class CalendarComponent {
 
   constructor(public dialog: MatDialog) {
     this.appointments.forEach((appointment) => {
-      appointment.color = this.getAppoiinmentColor();
+      appointment.color = this.getAppointmentColor();
     });
     this.generateView(this.currentView, this.viewDate);
     this.generateTimeSlots();
@@ -242,7 +253,7 @@ export class CalendarComponent {
       title,
       startTime,
       endTime,
-      color: this.getAppoiinmentColor(),
+      color: this.getAppointmentColor(),
     });
   }
 
@@ -254,19 +265,33 @@ export class CalendarComponent {
     }
   }
 
-  openDialog(): void {
-    const hour = new Date().getHours();
-    const minutes = new Date().getMinutes();
+  onDateClick(date: Date) {
+    this.selectedDate = date;
+    const currentTime = new Date();
+    const hour = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
     const h = hour < 10 ? `0${hour}` : hour;
     const m = minutes < 10 ? `0${minutes}` : minutes;
+    const defaultStartTime = `${h}:${m}`;
+
+    this.openDialog(date, defaultStartTime);
+  }
+
+  openDialog(date?: Date, startTime?: string): void {
     const dialogRef = this.dialog.open(AppointmentComponent, {
       width: '500px',
       panelClass: 'dialog-container',
       data: {
-        date: this.selectedDate,
+        date: date || this.selectedDate || new Date(),
         title: '',
-        startTime: this.selectedStartTime || `${h}:${m}`,
-        endTime: this.selectedStartTime || `${h}:${m}`,
+        startTime:
+          startTime ||
+          this.selectedStartTime ||
+          `${new Date().getHours()}:${new Date().getMinutes()}`,
+        endTime:
+          startTime ||
+          this.selectedStartTime ||
+          `${new Date().getHours()}:${new Date().getMinutes()}`,
       },
     });
 
@@ -308,12 +333,12 @@ export class CalendarComponent {
     this.generateView(this.currentView, this.viewDate);
   }
 
-  isCurrentMonth(date: Date): boolean {
-    return (
-      date.getMonth() === this.viewDate.getMonth() &&
-      date.getFullYear() === this.viewDate.getFullYear()
-    );
-  }
+  // isCurrentMonth(date: Date): boolean {
+  //   return (
+  //     date.getMonth() === this.viewDate.getMonth() &&
+  //     date.getFullYear() === this.viewDate.getFullYear()
+  //   );
+  // }
 
   getAppointmentsForDateTime(date: Date, timeSlot: string): Appointment[] {
     const appointmentsForDateTime: Appointment[] = this.appointments.filter(
@@ -326,33 +351,11 @@ export class CalendarComponent {
     return appointmentsForDateTime;
   }
 
-  getAppoiinmentColor(): string {
-    const g = Math.floor(Math.random() * 156) + 100;
-    const r = Math.floor(Math.random() * 100);
-    const b = Math.floor(Math.random() * 100);
-    const a = 0.4;
+  getAppointmentColor(): string {
+    const r = Math.floor(Math.random() * 20) + 120;
+    const g = Math.floor(Math.random() * 20) + 100;
+    const b = Math.floor(Math.random() * 20) + 115;
+    const a = 0.8;
     return `rgba(${r},${g},${b},${a})`;
-  }
-
-  editAppointment(appointment: Appointment, event: Event) {
-    event.preventDefault();
-    const dialogRef = this.dialog.open(AppointmentComponent, {
-      width: '500px',
-      panelClass: 'dialog-container',
-      data: appointment,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const index = this.appointments.findIndex(
-          (appointment) => appointment.uuid === result.uuid
-        );
-        if (result.remove) {
-          this.appointments.splice(index, 1);
-        } else {
-          this.appointments[index] = result;
-        }
-      }
-    });
   }
 }

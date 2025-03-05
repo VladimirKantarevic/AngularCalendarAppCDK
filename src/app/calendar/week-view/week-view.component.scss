@@ -1,0 +1,74 @@
+@use "../_variables" as vars;
+
+.calendar-view-week {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th {
+    background-color: vars.$calendar-header-bg;
+    color: vars.$text-light;
+    padding: 10px;
+    text-align: center;
+  }
+
+  td {
+    background-color: vars.$calendar-cell-bg;
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+    height: 50px;
+
+    .cell-overlay {
+      height: 100%;
+      width: 100%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(vars.$primary-color, 0.1);
+      }
+    }
+
+    .appointment {
+      background-color: vars.$appointment-bg;
+      color: vars.$appointment-text;
+      padding: 5px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .calendar-slot-cell {
+    background-color: vars.$calendar-header-bg;
+    color: vars.$text-light;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+.delete-btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: vars.$primary-color;
+  color: red;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  margin-left: 8px;
+  display: none;
+}
+
+.appointment:hover .delete-btn {
+  display: inline-block;
+}

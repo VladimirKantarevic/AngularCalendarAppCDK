@@ -107,10 +107,4 @@ export class AppointmentComponent {
       this.dialogRef.close(data);
     }
   }
-
-  onDeleteClick(): void {
-    const data = this.appointmentForm.value;
-    data.remove = true;
-    this.dialogRef.close(data);
-  }
 }
